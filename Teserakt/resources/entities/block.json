@@ -14,7 +14,7 @@
   "physics": {
     "hasGravity": false,
     "collidable": true,
-    "collides": true,
+    "collides": false,
     "friction": 1
   }
 }

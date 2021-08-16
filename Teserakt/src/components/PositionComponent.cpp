@@ -6,11 +6,11 @@ using namespace std;
 struct PositionComponent : public Component
 {
 	PositionComponent(nlohmann::json json) : Component(json) {
-		x = json["x"].get<float>();
-		y = json["y"].get<float>();
-		z = json["z"].get<float>();
+		x = json["x"].get<int>();
+		y = json["y"].get<int>();
+		z = json["z"].get<int>();
 	}
-	float x;
-	float y;
-	float z;
+	int x;
+	int y;
+	int z;
 };

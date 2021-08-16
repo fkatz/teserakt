@@ -6,9 +6,9 @@ using namespace std;
 struct SizeComponent : public Component
 {
 	SizeComponent(nlohmann::json json) : Component(json) {
-		width = json["width"].get<double>();
-		height = json["height"].get<double>();
+		width = json["width"].get<int>();
+		height = json["height"].get<int>();
 	}
-	double width;
-	double height;
+	int width;
+	int height;
 };
