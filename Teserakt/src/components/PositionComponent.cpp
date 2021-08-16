@@ -9,11 +9,7 @@ struct PositionComponent : public Component
 		x = json["x"].get<int>();
 		y = json["y"].get<int>();
 		z = json["z"].get<int>();
-		realX = x;
-		realY = y;
 	}
-	float realX;
-	float realY;
 	int x;
 	int y;
 	int z;

@@ -11,13 +11,13 @@ struct PhysicsSystem :
 
 	void onUpdate();
 
-	void collide(int currentX, int currentY, int futureX, int futureY, std::vector<entityId>& intersectingEntities, const entityId& entity, float& lastX, float& lastY, bool& intersected, bool shrinkX, bool shrinkY);
+	void collide(int currentX, int currentY, int futureX, int futureY, std::vector<entityId>& intersectingEntities, const entityId& entity, int& lastX, int& lastY, bool& intersected, bool shrinkX, bool shrinkY);
 
 	unsigned long long int lastUpdateTime;
 
 protected:
 	Registry* registry;
 private:
-	bool futureIntersects(entityId, entityId, int, int, bool, bool);
+	bool futureIntersects(entityId, entityId, int, int, int, int);
 };
 

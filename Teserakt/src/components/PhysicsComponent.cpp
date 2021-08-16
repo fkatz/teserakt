@@ -15,8 +15,8 @@ struct PhysicsComponent : public Component
 	bool collides;
 	bool collidable;
 	float friction;
-	double vx = 0;
-	double vy = 0;
+	int vx = 0;
+	int vy = 0;
 	bool isStanding = false;
 	uint64_t standingOnEntity = 0;
 	bool isWallJumping = false;
