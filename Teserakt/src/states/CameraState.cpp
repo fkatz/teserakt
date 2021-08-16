@@ -2,6 +2,6 @@
 
 struct CameraState {
 	bool followPlayers = true;
-	float cameraX = 0;
-	float cameraY = 0;
+	int cameraX = 0;
+	int cameraY = 0;
 };
