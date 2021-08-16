@@ -1,0 +1,45 @@
+{ "frames": {
+   "walk1": {
+    "frame": { "x": 0, "y": 0, "w": 24, "h": 72 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 24, "h": 72 },
+    "sourceSize": { "w": 24, "h": 72 },
+    "duration": 200
+   },
+   "idle": {
+    "frame": { "x": 24, "y": 0, "w": 24, "h": 72 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 24, "h": 72 },
+    "sourceSize": { "w": 24, "h": 72 },
+    "duration": 150
+   },
+   "walk2": {
+    "frame": { "x": 48, "y": 0, "w": 24, "h": 72 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 24, "h": 72 },
+    "sourceSize": { "w": 24, "h": 72 },
+    "duration": 200
+   },
+   "airborne": {
+    "frame": { "x": 72, "y": 0, "w": 24, "h": 72 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 24, "h": 72 },
+    "sourceSize": { "w": 24, "h": 72 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.28-x64",
+  "image": "cosmo.png",
+  "format": "RGBA8888",
+  "size": { "w": 96, "h": 72 },
+  "scale": "1",
+  "slices": [
+  ]
+ }
+}

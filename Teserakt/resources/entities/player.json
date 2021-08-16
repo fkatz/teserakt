@@ -1,0 +1,28 @@
+{
+  "texture": {
+    "filename": "cosmo.png",
+    "frames": {
+      "movingOnGround": ["walk1", "idle", "walk2"],
+      "idle": "idle",
+      "airborne": "airborne"
+    }
+  },
+  "position": {
+    "x": 50,
+    "y": 50,
+    "z": 0
+  },
+  "size": {
+    "width": 72,
+    "height": 216
+  },
+  "commands": {
+    "playable": true
+  },
+  "physics": {
+    "hasGravity": true,
+    "collidable": false,
+    "collides": true,
+    "friction": 0.2
+  }
+}

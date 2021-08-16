@@ -1,0 +1,17 @@
+{
+  "position": {
+    "x": -1100,
+    "y": 0,
+    "z": 0
+  },
+  "size": {
+    "width": 1000,
+    "height": 15000
+  },
+  "physics": {
+    "hasGravity": false,
+    "collidable": true,
+    "collides": false,
+    "friction": 0
+  }
+}

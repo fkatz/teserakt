@@ -1,0 +1,20 @@
+{
+  "position": {
+    "x": 255,
+    "y": 355,
+    "z": 0
+  },
+  "size": {
+    "width": 10,
+    "height": 10
+  },
+  "commands": {
+    "playable": true
+  },
+  "physics": {
+    "hasGravity": true,
+    "collidable": false,
+    "collides": true,
+    "friction": 0.1
+  }
+}
