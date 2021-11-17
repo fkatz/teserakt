@@ -8,12 +8,15 @@ CommandSystem::CommandSystem(Registry* registry) :
 }
 
 void CommandSystem::onUpdate() {
-	auto playableEntities = getPlayableEntities();
+	auto playableEntities = registry->gameState->getPlayableEntities();
 	for (auto playableEntityId : playableEntities) {
 		PhysicsComponent* physics = registry->gameState->getComponent<PhysicsComponent>(COMPONENT_PHYSICS, playableEntityId);
 		CommandsComponent* commands = registry->gameState->getComponent<CommandsComponent>(COMPONENT_COMMANDS, playableEntityId);
 		if (!physics->isStanding && !physics->isWallJumping) {
 			commands->state = "airborne";
+		}
+		else if (physics->isWallJumping) {
+			commands->state = "wallJumping";
 		}
 		else if (physics->isStanding) {
 			if (physics->vx > 0 || physics->vx < 0) {
@@ -59,16 +62,17 @@ int dispatch(lua_State* L) {
 	CommandSystem* ptr = *static_cast<CommandSystem**>(lua_getextraspace(L));
 	return ((*ptr).*func)(L);
 }
-
+/*
 int CommandSystem::lua_superjump(lua_State* L) {
 	auto playableEntities = getPlayableEntities();
 	for (auto playableEntityId : playableEntities) {
 		setEntityVelocityY(playableEntityId, 2000);
 	}
-	return 0;  /* number of results */
+	return 0;  // number of results
 }
-
+*/
 void CommandSystem::runLua() {
+	/*
 	// initialization
 	lua_State* L = luaL_newstate();
 	CommandSystem* commandSystem = this;
@@ -82,53 +86,41 @@ void CommandSystem::runLua() {
 	int load_stat = luaL_loadbuffer(L, lua_script, strlen(lua_script), lua_script);
 	lua_pcall(L, 0, 0, 0);
 	// cleanup
-	lua_close(L);
+	lua_close(L);*/
 }
 
-void CommandSystem::onCommand(CommandType commandType, Command* command)
+void CommandSystem::onCommand(CommandType commandType, entityId entity, Command* command)
 {
-	auto playableEntities = getPlayableEntities();
+	PhysicsComponent* physics = registry->gameState->getComponent<PhysicsComponent>(COMPONENT_PHYSICS, entity);
 	switch (commandType) {
 	case JUMP:
-		for (auto playableEntityId : playableEntities) {
-			setEntityVelocityY(playableEntityId, 500);
-		}
+		setEntityVelocityY(entity, 750);
 		break;
 	case MOVE_UP:
-		for (auto playableEntityId : playableEntities) {
-			setEntityVelocityY(playableEntityId, 200);
-		}
+		setEntityVelocityY(entity, 200);
 		break;
 	case MOVE_DOWN:
-		for (auto playableEntityId : playableEntities) {
-			setEntityVelocityY(playableEntityId, -200);
-		}
+		setEntityVelocityY(entity, -200);
 		break;
 	case MOVE_LEFT:
-		for (auto playableEntityId : playableEntities) {
-			setEntityVelocityX(playableEntityId, -200);
-		}
+		setEntityVelocityX(entity, -200);
 		break;
 	case MOVE_RIGHT:
-		for (auto playableEntityId : playableEntities) {
-			setEntityVelocityX(playableEntityId, 200);
-		}
+		setEntityVelocityX(entity, 200);
 		break;
 	case STOP_MOVE_X:
-		for (auto playableEntityId : playableEntities) {
-			setEntityVelocityX(playableEntityId, 0);
+		if (!physics->isStanding) {
+			setEntityVelocityX(entity, 0);
 		}
 		break;
 	case STOP_MOVE_Y:
-		for (auto playableEntityId : playableEntities) {
-			setEntityVelocityY(playableEntityId, 0);
-		}
+		if (physics->vy > 0) setEntityVelocityY(entity, 0);
 		break;
 	case THROW:
 	{
 		ThrowCommand* throwCommand = static_cast<ThrowCommand*> (command);
-		PositionComponent* playerPosition = registry->gameState->getComponent<PositionComponent>(COMPONENT_POSITION, throwCommand->originEntityId);
-		SizeComponent* playerSize = registry->gameState->getComponent<SizeComponent>(COMPONENT_SIZE, throwCommand->originEntityId);
+		PositionComponent* playerPosition = registry->gameState->getComponent<PositionComponent>(COMPONENT_POSITION, entity);
+		SizeComponent* playerSize = registry->gameState->getComponent<SizeComponent>(COMPONENT_SIZE, entity);
 
 		entityId itemId = registry->gameState->createEntity(throwCommand->entityFilename);
 		SizeComponent* itemSize = registry->gameState->getComponent<SizeComponent>(COMPONENT_SIZE, itemId);
@@ -150,21 +142,6 @@ void CommandSystem::onCommand(CommandType commandType, Command* command)
 	default:
 		break;
 	}
-}
-
-vector<entityId> CommandSystem::getPlayableEntities()
-{
-	vector<entityId> entities;
-	for (auto entityId : registry->gameState->entities) {
-		bool hasComponent = registry->gameState->hasComponent(COMPONENT_COMMANDS, entityId);
-		if (hasComponent) {
-			CommandsComponent* commands = registry->gameState->getComponent<CommandsComponent>(COMPONENT_COMMANDS, entityId);
-			if (commands->playable) {
-				entities.push_back(entityId);
-			}
-		}
-	}
-	return entities;
 }
 
 void CommandSystem::setEntityVelocityX(entityId entityId, double vx)

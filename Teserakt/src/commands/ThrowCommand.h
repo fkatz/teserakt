@@ -4,10 +4,9 @@
 using namespace std;
 
 struct ThrowCommand : public Command {
-	ThrowCommand(double velocity, double angle, string entityFilename, entityId originEntityId) 
-		:velocity(velocity), angle(angle), entityFilename(entityFilename), originEntityId(originEntityId) {}
+	ThrowCommand(double velocity, double angle, string entityFilename) 
+		:velocity(velocity), angle(angle), entityFilename(entityFilename) {}
 	double velocity;
 	double angle;
 	string entityFilename;
-	entityId originEntityId;
 };

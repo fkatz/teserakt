@@ -9,12 +9,16 @@
     "height": 10
   },
   "commands": {
-    "playable": true
+    "playable": false
   },
   "physics": {
     "hasGravity": true,
     "collidable": false,
     "collides": true,
     "friction": 0.1
+  },
+  "deallocate":{
+    "clearAfter":5000,
+    "clearOnMaxQuantity": true
   }
 }

@@ -8,8 +8,8 @@ PhysicsSystem::PhysicsSystem(Registry* registry) :
 	lastUpdateTime = SDL_GetTicks();
 }
 
-double gravity = 1000;
-double minV = -1000;
+double gravity = 1500;
+double minV = -10000;
 
 void PhysicsSystem::onUpdate()
 {
@@ -39,6 +39,10 @@ void PhysicsSystem::onUpdate()
 					int finalX = lastX;
 					int finalY = lastY;
 					bool collidedTotal, collidedX, collidedY;
+					PhysicsComponent* intersectingEntityPhysics = registry->gameState->getComponent<PhysicsComponent>(COMPONENT_PHYSICS, intersectingEntities[0]);
+					double friction = max(intersectingEntityPhysics->friction, physics->friction);
+					if (friction < 0) friction = 0;
+					if (friction > 1) friction = 1;
 					collide(round(finalX), round(finalY), round(futureX), round(futureY), intersectingEntities, entity, lastX, lastY, collidedTotal, false, false);
 					bool touchingX = false;
 					bool touchingBottom = false;
@@ -55,13 +59,12 @@ void PhysicsSystem::onUpdate()
 					finalY = lastY;
 					collide(round(finalX), round(finalY), round(futureX), round(finalY), intersectingEntities, entity, lastX, lastY, collidedX, 0, 1);
 					if (lastX != finalX) {
-						physics->vx = physics->vx - physics->vx * physics->friction;
 						finalX = lastX;
 						touchingX = false;
 					}
 					collide(round(finalX), round(finalY), round(finalX), round(futureY), intersectingEntities, entity, lastX, lastY, collidedY, 1, 0);
 					if (lastY != finalY) {
-						physics->vy = physics->vy - physics->vy * physics->friction;
+						if (physics->vy < 0) physics->vy = physics->vy - (physics->vy * friction);
 						finalY = lastY;
 						touchingBottom = false;
 					}
@@ -79,8 +82,11 @@ void PhysicsSystem::onUpdate()
 					}
 					futureX = finalX;
 					futureY = finalY;
-					if (collidedX) physics->vx = 0;
+					if (collidedX || futureX == position->x) physics->vx = 0;
 					if (collidedY) physics->vy = 0;
+					if (physics->isStanding) {
+						physics->vx = physics->vx - (physics->vx * friction);
+					}
 				}
 				else {
 					physics->isStanding = false;
@@ -131,10 +137,10 @@ bool PhysicsSystem::futureIntersects(entityId entityIdA, entityId entityIdB, int
 {
 	PositionComponent* positionA = registry->gameState->getComponent<PositionComponent>(COMPONENT_POSITION, entityIdA);
 	SizeComponent* sizeA = registry->gameState->getComponent<SizeComponent>(COMPONENT_SIZE, entityIdA);
-	SDL_Rect rectA = { min(positionA->x, futureX )+ paddingX,min(positionA->y,futureY )+ paddingY,abs(positionA->x - futureX) + sizeA->width - 2* paddingX,abs(positionA->y - futureY) + sizeA->height - 2* paddingY };
+	SDL_Rect rectA = { min(positionA->x, futureX) + paddingX,min(positionA->y,futureY) + paddingY,abs(positionA->x - futureX) + sizeA->width - 2 * paddingX,abs(positionA->y - futureY) + sizeA->height - 2 * paddingY };
 	PositionComponent* positionB = registry->gameState->getComponent<PositionComponent>(COMPONENT_POSITION, entityIdB);
 	SizeComponent* sizeB = registry->gameState->getComponent<SizeComponent>(COMPONENT_SIZE, entityIdB);
-	SDL_Rect rectB = { (int)positionB->x,(int)positionB->y,(int)sizeB->width,(int)sizeB->height };
+	SDL_Rect rectB = { positionB->x,positionB->y,sizeB->width,sizeB->height };
 	bool intersected = SDL_HasIntersection(&rectA, &rectB) == SDL_TRUE;
 	return intersected;
 }

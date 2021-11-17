@@ -4,6 +4,7 @@ using namespace std;
 
 struct Component
 {
+	Component() {}
 	Component(nlohmann::json) {}
 };
 

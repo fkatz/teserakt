@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\components\DeallocateComponent.cpp" />
+    <ClCompile Include="src\systems\DeallocatorSystem.cpp" />
+    <ClCompile Include="src\components\AIComponent.cpp" />
+    <ClCompile Include="src\systems\AISystem.cpp" />
     <ClCompile Include="src\components\PhysicsComponent.cpp" />
     <ClCompile Include="src\resources\Resource.cpp" />
     <ClCompile Include="src\resources\TextureAtlasResource.cpp" />
@@ -38,8 +42,11 @@
     <ClCompile Include="src\systems\RenderSystem.cpp" />
     <ClCompile Include="src\systems\RenderSystem.h" />
     <ClCompile Include="src\systems\System.cpp" />
+    <ClCompile Include="src\utils\Collision.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\systems\DeallocatorSystem.h" />
+    <ClInclude Include="src\systems\AISystem.h" />
     <ClInclude Include="src\commands\Command.h" />
     <ClInclude Include="src\commands\ThrowCommand.h" />
     <ClInclude Include="src\systems\PhysicsSystem.h" />
@@ -51,6 +58,7 @@
     <ClInclude Include="src\components\PositionComponent.cpp" />
     <ClInclude Include="src\components\SizeComponent.cpp" />
     <ClInclude Include="src\systems\System.h" />
+    <ClInclude Include="src\utils\Collision.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

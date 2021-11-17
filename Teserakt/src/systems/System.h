@@ -4,7 +4,7 @@ using namespace std;
 
 struct System
 {
-	System(string name);;
+	System(string name);
 	string name;
 	virtual void onUpdate() = 0;
 };

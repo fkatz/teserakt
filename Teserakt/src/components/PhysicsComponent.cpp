@@ -14,7 +14,7 @@ struct PhysicsComponent : public Component
 	bool hasGravity;
 	bool collides;
 	bool collidable;
-	float friction;
+	double friction;
 	int vx = 0;
 	int vy = 0;
 	bool isStanding = false;

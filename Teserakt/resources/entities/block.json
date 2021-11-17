@@ -1,20 +1,30 @@
 {
+  "ai":{
+    "shoots": true,
+    "shootCooldown":1000,
+    "visionDistance": 500,
+    "visionAngleStart": 60,
+    "visionAngleEnd": -10,
+    "patrolOriginX": 1000,
+    "patrolOriginY":50,
+    "patrolDistance": 400
+  },
   "position": {
-    "x": 255,
-    "y": 255,
+    "x": 1000,
+    "y": 50,
     "z": 0
   },
   "size": {
-    "width": 50,
-    "height": 20
+    "width": 42,
+    "height": 42
   },
   "commands": {
     "playable": false
   },
   "physics": {
-    "hasGravity": false,
+    "hasGravity": true,
     "collidable": true,
-    "collides": false,
+    "collides": true,
     "friction": 1
   }
 }

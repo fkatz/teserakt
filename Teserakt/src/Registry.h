@@ -8,6 +8,8 @@
 #include "states/WindowState.cpp"
 #include "systems/PhysicsSystem.h"
 #include "states/CameraState.cpp"
+#include "systems/AISystem.h"
+#include "systems/DeallocatorSystem.h"
 
 struct Registry
 {
@@ -18,10 +20,12 @@ struct Registry
 	WindowState* windowState;
 	CameraState* cameraState;
 
-	CommandSystem* commandSystem;
 	InputSystem* inputSystem;
+	AISystem* aiSystem;
+	CommandSystem* commandSystem;
 	RenderSystem* renderSystem;
 	PhysicsSystem* physicsSystem;
+	DeallocatorSystem* deallocatorSystem;
 	vector<System*> systems;
 };
 

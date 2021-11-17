@@ -59,15 +59,22 @@ void RenderSystem::onUpdate() {
 	SDL_RenderClear(registry->windowState->renderer);
 
 	//Update screen
-	int screenWidth;
-	int screenHeight;
+	int screenWidth, screenHeight;
 	SDL_GetWindowSize(registry->windowState->window, &screenWidth, &screenHeight);
+	int cameraOffsetX = -(registry->cameraState->cameraX - screenWidth / 2);
+	int cameraOffsetY = screenHeight + (registry->cameraState->cameraY - screenHeight / 2);
+	for (int i = 0; i < 240; i++) {
+		SDL_SetRenderDrawColor(registry->windowState->renderer, 0x00, 0x00, 0x00, 0xFF);
+		SDL_RenderDrawLine(registry->windowState->renderer, cameraOffsetX + 0, cameraOffsetY - i * 24, cameraOffsetX + 2400, cameraOffsetY - i * 24);
+		SDL_RenderDrawLine(registry->windowState->renderer, cameraOffsetX + i * 24, cameraOffsetY - 0, cameraOffsetX + i * 24, cameraOffsetY - 2400);
+	}
 	for (auto entityId : registry->gameState->entities) {
+
 		PositionComponent* position = registry->gameState->getComponent<PositionComponent>(COMPONENT_POSITION, entityId);
 		SizeComponent* size = registry->gameState->getComponent<SizeComponent>(COMPONENT_SIZE, entityId);
 		SDL_Rect entityRect = {
-			(int)position->x - ((int)registry->cameraState->cameraX - SCREEN_WIDTH / 2),
-			screenHeight - size->height - ((int)position->y - ((int)registry->cameraState->cameraY - SCREEN_HEIGHT / 2)),
+			position->x + cameraOffsetX,
+			cameraOffsetY - position->y - size->height,
 			size->width,
 			size->height
 		};
@@ -109,6 +116,23 @@ void RenderSystem::onUpdate() {
 			SDL_SetRenderDrawColor(registry->windowState->renderer, 0x00, 0x00, 0x00, 0xFF);
 			SDL_RenderFillRect(registry->windowState->renderer, &entityRect);
 		}
+		if (registry->gameState->hasComponent(COMPONENT_AI, entityId)) {
+			AIComponent* ai = registry->gameState->getComponent<AIComponent>(COMPONENT_AI, entityId);
+			SDL_SetRenderDrawColor(registry->windowState->renderer, 0xFF, 0x00, 0x00, 0xFF);
+			SDL_RenderDrawLine(
+				registry->windowState->renderer,
+				entityRect.x + entityRect.w / 2,
+				entityRect.y + entityRect.h / 2,
+				ai->targetX + cameraOffsetX,
+				cameraOffsetY - ai->targetY);
+			SDL_RenderFillRect(registry->windowState->renderer, new SDL_Rect{
+				ai->targetX + cameraOffsetX - 4,
+					cameraOffsetY - ai->targetY - 4,
+					8,
+					8
+				});
+		}
+
 	}
 	SDL_RenderPresent(registry->windowState->renderer);
 	SDL_UpdateWindowSurface(registry->windowState->window);

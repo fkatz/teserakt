@@ -1,6 +1,6 @@
 {
   "position": {
-    "x": -1100,
+    "x": -1000,
     "y": 0,
     "z": 0
   },
@@ -12,6 +12,6 @@
     "hasGravity": false,
     "collidable": true,
     "collides": false,
-    "friction": 0
+    "friction": 0.1
   }
 }

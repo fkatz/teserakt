@@ -31,16 +31,12 @@ struct CommandSystem : public System
 
 	void onUpdate();
 
-	void onCommand(CommandType commandType, Command* command = NULL);
+	void onCommand(CommandType commandType, entityId entity, Command* command = NULL);
 protected:
 	Registry* registry;
 private:
 	void setEntityVelocityX(entityId entityId, double vx);
 	void setEntityVelocityY(entityId entityId, double vy);
-	void setIsJumping(entityId entityId, bool isJumping);
-	void setIsWalking(entityId entityId, bool isWalking);
-	void setFacingLeft(entityId entityId, bool facingLeft);
 	int lua_superjump(lua_State* L);
 	void runLua();
-	vector<entityId> getPlayableEntities();
 };
